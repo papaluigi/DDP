@@ -4,7 +4,8 @@ library(shiny)
 source("data_processing.R")
 
 # Initialize matrix object (required for barplot)
-as.matrix(data2)
+#as.matrix(data2)
+data2 <- matrix()
 
 shinyServer(function(input, output) {
 
@@ -13,7 +14,7 @@ shinyServer(function(input, output) {
     
     keeps <- c(input$year)
     sliderInput("thrIn",
-                "French Popuplation span:",
+                "French Popuplation size span:",
                 min = min(data[data$CONT_NAME == input$contIn, names(data) %in% keeps]),
                 max = max(data[data$CONT_NAME == input$contIn, names(data) %in% keeps]),
                 value = c(5000,50000)

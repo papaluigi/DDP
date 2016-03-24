@@ -30,7 +30,7 @@ shinyUI(fluidPage(
                                "EUROPE"="EU",
                                "ASIA"="AS",
                                "OCEANIA"="OC"),
-                  selected="AFRICA"
+                  selected="AF"
       ),
       uiOutput("thrIn")
     ),
@@ -44,10 +44,12 @@ shinyUI(fluidPage(
         ),#End of TabPanel Visualize
       
         tabPanel("Dataset",
-          verbatimTextOutput("contOut"),
+          #verbatimTextOutput("contOut"),
+          h4("Select continent of the left handside to filter data"),
           dataTableOutput("data2Out")
         ),#End of TabPanel Dataset
         tabPanel("Static Plot",
+          h4("This one is just a static plot"),       
           plotOutput("contBarPlot")
         )#End of TabPanel Dataset
         )
