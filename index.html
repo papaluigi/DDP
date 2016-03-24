@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>French citizens living abroad</title>
+  <meta charset="utf-8">
+  <meta name="description" content="French citizens living abroad">
+  <meta name="author" content="Louis-Ferdinand Goffin, aka Papaluigi">
+  <meta name="generator" content="slidify" />
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta http-equiv="X-UA-Compatible" content="chrome=1">
+  <link rel="stylesheet" href="../../libraries/frameworks/io2012/css/default.css" media="all" >
+  <link rel="stylesheet" href="../../libraries/frameworks/io2012/css/phone.css" 
+    media="only screen and (max-device-width: 480px)" >
+  <link rel="stylesheet" href="../../libraries/frameworks/io2012/css/slidify.css" >
+  <link rel="stylesheet" href="../../libraries/highlighters/highlight.js/css/tomorrow.css" />
+  <base target="_blank"> <!-- This amazingness opens all links in a new tab. -->  <link rel=stylesheet href="../../libraries/widgets/quiz/css/demo.css"></link>
+<link rel=stylesheet href="../../libraries/widgets/bootstrap/css/bootstrap.css"></link>
+<link rel=stylesheet href="../../libraries/widgets/nvd3/css/nv.d3.css"></link>
+<link rel=stylesheet href="../../libraries/widgets/nvd3/css/rNVD3.css"></link>
+<link rel=stylesheet href="../../libraries/widgets/morris/css/morris.css"></link>
+<link rel=stylesheet href="../../libraries/widgets/leaflet/external/leaflet.css"></link>
+<link rel=stylesheet href="../../libraries/widgets/leaflet/external/leaflet-rCharts.css"></link>
+<link rel=stylesheet href="../../libraries/widgets/leaflet/external/legend.css"></link>
+<link rel=stylesheet href="../../libraries/widgets/rickshaw/css/rickshaw.min.css"></link>
+<link rel=stylesheet href="../../libraries/widgets/rickshaw/css/jquery-ui.css"></link>
+<link rel=stylesheet href="./assets/css/ribbons.css"></link>
+
+  
+  <!-- Grab CDN jQuery, fall back to local if offline -->
+  <script src="http://ajax.aspnetcdn.com/ajax/jQuery/jquery-1.7.min.js"></script>
+  <script>window.jQuery || document.write('<script src="../../libraries/widgets/quiz/js/jquery.js"><\/script>')</script> 
+  <script data-main="../../libraries/frameworks/io2012/js/slides" 
+    src="../../libraries/frameworks/io2012/js/require-1.0.8.min.js">
+  </script>
+  
+  <script src="../../libraries/widgets/highcharts/js/jquery-1.9.1.min.js"></script>
+<script src="../../libraries/widgets/highcharts/js/highcharts.js"></script>
+<script src="../../libraries/widgets/highcharts/js/highcharts-more.js"></script>
+<script src="../../libraries/widgets/highcharts/js/exporting.js"></script>
+<script src="../../libraries/widgets/nvd3/js/jquery-1.8.2.min.js"></script>
+<script src="../../libraries/widgets/nvd3/js/d3.v3.min.js"></script>
+<script src="../../libraries/widgets/nvd3/js/nv.d3.min-new.js"></script>
+<script src="../../libraries/widgets/nvd3/js/fisheye.js"></script>
+<script src="../../libraries/widgets/morris/js/raphael-2.1.0.min.js"></script>
+<script src="../../libraries/widgets/morris/js/morris.min.js"></script>
+<script src="../../libraries/widgets/leaflet/external/leaflet.js"></script>
+<script src="../../libraries/widgets/leaflet/external/leaflet-providers.js"></script>
+<script src="../../libraries/widgets/leaflet/external/Control.FullScreen.js"></script>
+<script src="../../libraries/widgets/rickshaw/js/d3.v2.min.js"></script>
+<script src="../../libraries/widgets/rickshaw/js/rickshaw.min.js"></script>
+<script src="../../libraries/widgets/rickshaw/js/jquery.min.js"></script>
+<script src="../../libraries/widgets/rickshaw/js/jquery-ui.min.js"></script>
+
+
+</head>
+<body style="opacity: 0">
+  <slides class="layout-widescreen">
+    
+    <!-- LOGO SLIDE -->
+        <slide class="title-slide segue nobackground">
+  <hgroup class="auto-fadein">
+    <h1>French citizens living abroad</h1>
+    <h2>A study of french population living outside France</h2>
+    <p>Louis-Ferdinand Goffin, aka Papaluigi<br/>Junior Data Scientist</p>
+  </hgroup>
+  <article></article>  
+</slide>
+    
+
+    <!-- SLIDES -->
+    <slide class="" id="slide-1" style="background:;">
+  <hgroup>
+    <h2>The Data Source</h2>
+  </hgroup>
+  <article data-timings="">
+    <p>The initial <a href="https://www.data.gouv.fr/fr/datasets/francais-de-l-etranger-inscriptions-au-registre-des-francais-etablis-hors-de-france-2001-2013/">set of data</a> shows the state year by year and country by country, of the enrollment in the register of French citizens living outside France , from 2001 to 2013.</p>
+
+<p>The entry in the Register is based on volunteering, and is performed with the network of French embassies and consulates.
+Thus, the total number of French citizens living abroad may differ as it also includes the French citizens who are not on the register.</p>
+
+<p>Dataset is provided by the <a href="https://www.data.gouv.fr">Open Platform for French Public Data</a>.</p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="class" id="id" style="background:;">
+  <hgroup>
+    <h2>The initial Dataset</h2>
+  </hgroup>
+  <article data-timings="">
+    <p>Let&#39;s apply a basic dataset cleaning and have a look to the data (first lines)</p>
+
+<!-- html table generated in R 3.2.2 by xtable 1.7-4 package -->
+
+<!-- Thu Mar 24 11:10:18 2016 -->
+
+<table border=1>
+<tr> <th>  </th> <th> NAME_FR </th> <th> 2001 </th> <th> 2002 </th> <th> 2003 </th> <th> 2004 </th> <th> 2005 </th> <th> 2006 </th> <th> 2007 </th> <th> 2008 </th> <th> 2009 </th> <th> 2010 </th> <th> 2011 </th> <th> 2012 </th> <th> 2013 </th>  </tr>
+  <tr> <td align="right"> 1 </td> <td> AFGHANISTAN </td> <td>  </td> <td>  </td> <td>  </td> <td>  </td> <td> 206 </td> <td> 226 </td> <td> 189 </td> <td> 177 </td> <td> 303 </td> <td> 319 </td> <td> 334 </td> <td> 286 </td> <td> 241 </td> </tr>
+  <tr> <td align="right"> 2 </td> <td> AFRIQUE DU SUD </td> <td> 5 254 </td> <td> 5 438 </td> <td> 5 958 </td> <td> 6 312 </td> <td> 6 130 </td> <td> 6 560 </td> <td> 6 447 </td> <td> 6 987 </td> <td> 6 998 </td> <td> 7 054 </td> <td> 7 108 </td> <td> 7209 </td> <td> 7283 </td> </tr>
+  <tr> <td align="right"> 3 </td> <td> ALBANIE </td> <td> 54 </td> <td> 55 </td> <td> 56 </td> <td> 56 </td> <td> 79 </td> <td> 96 </td> <td> 100 </td> <td> 90 </td> <td> 86 </td> <td> 121 </td> <td> 172 </td> <td> 198 </td> <td> 201 </td> </tr>
+  <tr> <td align="right"> 4 </td> <td> ALGERIE </td> <td> 7 389 </td> <td> 12 541 </td> <td> 22 202 </td> <td> 30 964 </td> <td> 38 080 </td> <td> 41 498 </td> <td> 36 782 </td> <td> 34 718 </td> <td> 30 993 </td> <td> 28 287 </td> <td> 28 830 </td> <td> 30344 </td> <td> 31677 </td> </tr>
+  <tr> <td align="right"> 5 </td> <td> ALLEMAGNE </td> <td> 87 677 </td> <td> 96 619 </td> <td> 107 774 </td> <td> 106 781 </td> <td> 101 391 </td> <td> 108 821 </td> <td> 99 288 </td> <td> 106 842 </td> <td> 109 468 </td> <td> 111 742 </td> <td> 114 372 </td> <td> 110881 </td> <td> 112238 </td> </tr>
+  <tr> <td align="right"> 6 </td> <td> ANDORRE </td> <td> 2 717 </td> <td> 3 159 </td> <td> 3 783 </td> <td> 3 900 </td> <td> 3 991 </td> <td> 4 207 </td> <td> 4 091 </td> <td> 3 885 </td> <td> 3 766 </td> <td> 3 454 </td> <td> 3 288 </td> <td> 3309 </td> <td> 3226 </td> </tr>
+   </table>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="class" id="id" style="background:;">
+  <hgroup>
+    <h2>Priliminary results</h2>
+  </hgroup>
+  <article data-timings="">
+    <p>Let&#39;s merge the data with <a href="http://sql.sh/514-liste-pays-csv-xml">Countries ISO 3166 dataset</a> and with <a href="https://dev.maxmind.com/geoip/legacy/codes/country_continent/">ISO 3166 Country Codes with Associated Continent dataset</a> to perform a first graphical study of the ditribution accross continents :</p>
+
+<iframe src="fig/r1.html" width=100%, height=600></iframe>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="class" id="id" style="background:;">
+  <hgroup>
+    <h2>Let&#39;s go further</h2>
+  </hgroup>
+  <article data-timings="">
+    <p>We now want to perform a deeper analysis, which would enable us to navigate through timelines, continents and population size.</p>
+
+<p>For that purpose, we have designed and realized a dedicated <a href="https://papaluigi.shinyapps.io/FR_CIT_ABROAD/">shiny application</a>.</p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+    <slide class="backdrop"></slide>
+  </slides>
+  <div class="pagination pagination-small" id='io2012-ptoc' style="display:none;">
+    <ul>
+      <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=1 title='The Data Source'>
+         1
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=2 title='The initial Dataset'>
+         2
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=3 title='Priliminary results'>
+         3
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=4 title='Let&#39;s go further'>
+         4
+      </a>
+    </li>
+  </ul>
+  </div>  <!--[if IE]>
+    <script 
+      src="http://ajax.googleapis.com/ajax/libs/chrome-frame/1/CFInstall.min.js">  
+    </script>
+    <script>CFInstall.check({mode: 'overlay'});</script>
+  <![endif]-->
+</body>
+  <!-- Load Javascripts for Widgets -->
+  <script src="../../libraries/widgets/quiz/js/jquery.quiz.js"></script>
+<script src="../../libraries/widgets/quiz/js/mustache.min.js"></script>
+<script src="../../libraries/widgets/quiz/js/quiz-app.js"></script>
+<script src="../../libraries/widgets/bootstrap/js/bootstrap.min.js"></script>
+<script src="../../libraries/widgets/bootstrap/js/bootbox.min.js"></script>
+
+  <!-- MathJax: Fall back to local if CDN offline but local image fonts are not supported (saves >100MB) -->
+  <script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        inlineMath: [['$','$'], ['\\(','\\)']],
+        processEscapes: true
+      }
+    });
+  </script>
+  <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/2.0-latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+  <!-- <script src="https://c328740.ssl.cf1.rackcdn.com/mathjax/2.0-latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+  </script> -->
+  <script>window.MathJax || document.write('<script type="text/x-mathjax-config">MathJax.Hub.Config({"HTML-CSS":{imageFont:null}});<\/script><script src="../../libraries/widgets/mathjax/MathJax.js?config=TeX-AMS-MML_HTMLorMML"><\/script>')
+</script>
+<script>  
+  $(function (){ 
+    $("#example").popover(); 
+    $("[rel='tooltip']").tooltip(); 
+  });  
+  </script>  
+  <!-- LOAD HIGHLIGHTER JS FILES -->
+  <script src="../../libraries/highlighters/highlight.js/highlight.pack.js"></script>
+  <script>hljs.initHighlightingOnLoad();</script>
+  <!-- DONE LOADING HIGHLIGHTER JS FILES -->
+   
+  </html>
