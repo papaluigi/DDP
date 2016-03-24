@@ -1,0 +1,134 @@
+---
+title       : French citizens living abroad
+subtitle    : A study of french population living outside France
+author      : Louis-Ferdinand Goffin, aka Papaluigi
+job         : Junior Data Scientist
+framework   : io2012
+highlighter : highlight.js
+hitheme     : tomorrow
+#url:
+#    lib: ../../librariesNew #Remove new if using old slidify
+#    assets: ../../assets
+widgets     : [mathjax, quiz, bootstrap]
+ext_widgets : {rCharts: ["libraries/highcharts","libraries/nvd3", "libraries/morris", "libraries/leaflet", "libraries/rickshaw"]}
+#mode        : selfcontained # {standalone, draft}
+mode        : selfcontained
+---
+
+```{r setup, cache = F, echo = F, message = F, warning = F, tidy = F, results='hide'}
+# make this an external chunk that can be included in any file
+library(knitr)
+options(width = 100)
+opts_chunk$set(message = F, error = F, warning = F, comment = NA, fig.align = 'center', dpi = 100, tidy = F, cache.path = '.cache/', fig.path = 'fig/')
+
+options(xtable.type = 'html')
+knit_hooks$set(inline = function(x) {
+  if(is.numeric(x)) {
+    round(x, getOption('digits'))
+  } else {
+    paste(as.character(x), collapse = ', ')
+  }
+})
+knit_hooks$set(plot = knitr:::hook_plot_html)
+runif(1)
+```
+
+
+## The Data Source
+
+The initial [set of data](https://www.data.gouv.fr/fr/datasets/francais-de-l-etranger-inscriptions-au-registre-des-francais-etablis-hors-de-france-2001-2013/) shows the state year by year and country by country, of the enrollment in the register of French citizens living outside France , from 2001 to 2013.
+
+The entry in the Register is based on volunteering, and is performed with the network of French embassies and consulates.
+Thus, the total number of French citizens living abroad may differ as it also includes the French citizens who are not on the register.
+
+Dataset is provided by the [Open Platform for French Public Data](https://www.data.gouv.fr).
+
+
+--- .class #id 
+
+## The initial Dataset
+
+```{r echo=FALSE}
+# LOAD REQUIRED LIBRARIES
+require(data.table)
+library(dplyr)
+library(DT)
+library(rCharts)
+library(stringi)
+library(reshape2)
+require(rCharts)
+library(xtable)
+
+# READ DATA
+data <- fread("./data/etalab-inscriptions-registre-2001-2013.csv")
+countries <- fread("./data/sql-pays.csv")
+continents <- fread("./data/country_continent.csv")
+
+# CLEAN DATA
+setnames(data,1:14,as.character(data[1,]))
+setnames(data,1, "NAME_FR")
+
+data <- data[!1,]
+data <- data[data$NAME_FR!="TOTAL" & data$NAME_FR!="Source : " & data$NAME_FR!="",]
+```
+
+Let's apply a basic dataset cleaning and have a look to the data (first lines)
+
+```{r echo=FALSE, results='asis'}
+print(xtable(head(data), type="html"))
+```
+
+--- .class #id 
+
+## Priliminary results
+
+Let's merge the data with [Countries ISO 3166 dataset](http://sql.sh/514-liste-pays-csv-xml) and with [ISO 3166 Country Codes with Associated Continent dataset](https://dev.maxmind.com/geoip/legacy/codes/country_continent/) to perform a first graphical study of the ditribution accross continents :
+
+```{r echo=FALSE}
+setnames(countries,1:6, c("ID","ISONUM","ISOALPHA2","ISOALPHA3","NAME_FR","NAME_EN"))
+
+setnames(continents, 1:2, c("ISOALPHA2","CONT_NAME"))
+
+countries$NAME_FR <- stri_trans_general(str_to_upper(countries$NAME_FR),"Latin-ASCII")
+
+continents[is.na(continents)] <- "NA"
+
+data <- as.data.frame(data)
+data[, 2:14] <- apply(data[, 2:14], 2, function(x) as.numeric(gsub(" ", "", x)))
+data[is.na(data)] <- 0
+
+countries <- merge(countries, continents, by="ISOALPHA2")
+
+# THIS IS THE REFERENCE DATASET
+data <- merge(data, countries, by="NAME_FR")
+```
+
+
+```{r echo=FALSE, results = 'asis'}
+data3 <- melt(data, id=c("ID","NAME_FR","NAME_EN","CONT_NAME","ISOALPHA2","ISOALPHA3","ISONUM"), measures.vars=c(2:14))
+setnames(data3,"variable", "year")
+setnames(data3,"value", "count")
+
+data4 <- ddply(data3,.(year,CONT_NAME),summarise,count=sum(count))
+data4 <- dcast(data4, CONT_NAME ~ year)
+row.names(data4) <- data4$CONT_NAME
+data4 <- as.matrix(data4[,2:14])
+```
+
+
+
+```{r echo=FALSE, results = 'asis'}
+r1 <- rPlot(count ~ year | CONT_NAME, data = data3, color = 'CONT_NAME', type = 'point')
+r1$save('fig/r1.html', cdn = TRUE)
+cat('<iframe src="fig/r1.html" width=100%, height=600></iframe>')
+```
+
+--- .class #id 
+
+## Let's go further
+
+We now want to perform a deeper analysis, which would enable us to navigate through timelines, continents and population size.
+
+For that purpose, we have designed and realized a dedicated [shiny application](https://papaluigi.shinyapps.io/FR_CIT_ABROAD/).
+
+
